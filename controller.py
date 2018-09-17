@@ -73,6 +73,7 @@ color_by_rules = {
     weather.LIFR: colors[weather.LOW],
     weather.NIGHT: colors[weather.YELLOW],
     weather.SMOKE: colors[weather.GRAY],
+    weather.WIND: colors[weather.CYAN],
     weather.INVALID: colors[weather.OFF],
     weather.INOP: colors[weather.OFF]
 }
@@ -139,25 +140,25 @@ def get_color_from_condition(category, metar=None):
     # The default is to follow what ForeFlight and SkyVector
     # do and just turn it off.
     if is_inactive:
-        return (weather.INOP, False)
+        return (weather.INOP, weather.INOP)
 
-    if category == weather.VFR:
-        return (weather.GREEN, is_old)
-    elif category == weather.MVFR:
-        return (weather.BLUE, is_old)
-    elif category == weather.IFR:
-        return (weather.RED, is_old)
-    elif category == weather.LIFR:
+    base_color = weather.OFF
+
+    if category in color_by_rules:
+        base_color = color_by_rules[category]
+    else:
+        base_color = color_by_rules[weather.INVALID]
+
+    if (is_old and base_color != weather.OFF) \
+            or (category == weather.LIFR and configuration.get_mode() == configuration.STANDARD):
         # Only blink for normal LEDs.
         # PWM and WS2801 have their own color.
-        return (weather.LOW, configuration.get_mode() == configuration.STANDARD)
-    elif category == weather.NIGHT:
-        return (weather.YELLOW, False)
-    elif category == weather.SMOKE:
-        return (weather.GRAY, is_old)
+        return (base_color, color_by_rules[weather.OFF])
 
-    # Error
-    return (weather.OFF, False)
+    if weather.is_high_wind(metar):
+        return (base_color, color_by_rules[weather.WIND])
+
+    return (base_color, base_color)
 
 
 def set_airport_display(airport, category, metar=None):
@@ -176,8 +177,7 @@ def set_airport_display(airport, category, metar=None):
 
     changed = False
     try:
-        color_and_flash = get_color_from_condition(category, metar=metar)
-        should_flash = color_and_flash[1]
+        colors = get_color_from_condition(category, metar=metar)
 
         thread_lock_object.acquire()
 
@@ -186,7 +186,7 @@ def set_airport_display(airport, category, metar=None):
         else:
             changed = True
 
-        airport_conditions[airport] = (category, should_flash)
+        airport_conditions[airport] = (category, colors)
     except Exception as ex:
         safe_log_warning(LOGGER,
                          'set_airport_display() - {} - EX:{}'.format(airport, ex))
@@ -299,7 +299,7 @@ def get_airport_condition(airport):
     except:
         pass
 
-    return weather.INVALID, False
+    return weather.INVALID, (weather.OFF, weather.OFF)
 
 
 def render_airport_displays(airport_flasher):
@@ -332,31 +332,29 @@ def render_airport(airport, airport_flasher):
         airport_flasher {bool} -- Is this a flash (off) cycle?
     """
 
-    condition, blink = get_airport_condition(airport)
-    color_by_category = color_by_rules[condition]
-    if blink and airport_flasher:
-        color_by_category = colors[weather.OFF]
+    condition, colors = get_airport_condition(airport)
+    color_by_category = colors[1] if airport_flasher else colors[0]
 
+    # Alternate colors.
     proportions, color_to_render = get_mix_and_color(
         color_by_category, airport)
 
     log = airport not in airport_render_last_logged_by_station
 
     if airport in airport_render_last_logged_by_station:
-        time_since_last = datetime.utcnow(
-        ) - airport_render_last_logged_by_station[airport]
+        time_since_last = datetime.utcnow() \
+            - airport_render_last_logged_by_station[airport]
         log = time_since_last.total_seconds() > 60
 
     if log:
-        message_format = 'STATION={}, CAT={:5}, BLINK={}, COLOR={:3}:{:3}:{:3}, P_O2N={:.1f}, P_N2C={:.1f}, RENDER={:3}:{:3}:{:3}'
-        safe_log(LOGGER, message_format.format(airport, condition, blink,
+        message_format = 'STATION={}, CAT={:5}, FirstColor={}, COLOR={:3}:{:3}:{:3}, P_O2N={:.1f}, P_N2C={:.1f}, RENDER={:3}:{:3}:{:3}'
+        safe_log(LOGGER, message_format.format(airport, condition, not airport_flasher,
                                                color_by_category[0], color_by_category[1], color_by_category[2],
                                                proportions[0], proportions[1],
                                                color_to_render[0], color_to_render[1], color_to_render[2]))
         airport_render_last_logged_by_station[airport] = datetime.utcnow()
 
-    renderer.set_led(
-        airport_render_config[airport], color_to_render)
+    renderer.set_led(airport_render_config[airport], color_to_render)
 
 
 def get_mix_and_color(color_by_category, airport):

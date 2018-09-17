@@ -22,10 +22,12 @@ IFR = 'IFR'
 LIFR = 'L' + IFR
 NIGHT = 'NIGHT'
 SMOKE = 'SMOKE'
+WIND = 'WIND'
 
 RED = 'RED'
 GREEN = 'GREEN'
 BLUE = 'BLUE'
+CYAN = 'CYAN'
 GRAY = 'GRAY'
 YELLOW = 'YELLOW'
 DARK_YELLOW = 'DARK YELLOW'
@@ -696,6 +698,60 @@ def get_ceiling(metar, logger=None):
                     component, metar, ex))
     return minimum_ceiling
 
+def is_high_wind(metar, logger=None):
+    """
+    Returns True if the wind should be considered "high"
+    
+    Arguments:
+        metar {string} -- The metar report
+    
+    Keyword Arguments:
+        logger {Logger} -- The logging object (default: {None})
+    
+    Returns:
+        bool -- True if the wind is high, False if the wind is not high or can not be classified.
+    >>> is_high_wind('KBIL 161753Z 07003KT 10SM FEW020 19/10 A2998 RMK AO2 SLP131 T01940100 10194 20089 58005')
+    False
+    >>> is_high_wind('KPAE 161753Z 14016G28KT 10SM BKN007 BKN012 14/11 A2988 RMK AO2 PK WND 13028/1744 SLP117 60014 T01440111 10144 20117 51019')
+    True
+    >>> is_high_wind('KAWO 161756Z AUTO 15016KT 10SM BKN019 16/12 A2988 RMK AO2 SLP123 60013 T01560117 10156 20122 53020')
+    True
+    >>> is_high_wind('KAWO 161756Z AUTO 10SM BKN019 16/12 A2988 RMK AO2 SLP123 60013 T01560117 10156 20122 53020')
+    False
+    >>> is_high_wind('')
+    False
+    >>> is_high_wind(None)
+    False
+    """
+
+    if metar is None or len(metar) < 1:
+        return False
+
+    wind_report = re.search(r'\d{5}(G\d{2})?KT?', metar)
+
+    if wind_report is None:
+        return False
+    
+    # RegEx returns a list of matches, even if there is only one.
+    wind_report = wind_report[0]
+    report_length = len(wind_report)
+
+    if report_length < 1:
+        return False
+
+    try:
+        # Get the 4th to last to 2nd to last
+        # characters, which will always be a wind
+        # speed, even if it is a gust augmented
+        # report. Use the gust speed over the sustained.
+        wind_speed = wind_report[-4:-2]
+        wind_speed = int(wind_speed)
+
+        return wind_speed >= 15
+    
+    except:
+        return False
+
 
 def get_ceiling_category(ceiling):
     """
@@ -760,6 +816,14 @@ def get_category(airport_iaco_code, metar, logger=None):
 
 if __name__ == '__main__':
     safe_log(None, 'Starting self-test')
+
+    import doctest
+
+    print("Starting DocTests.")
+
+    doctest.testmod()
+
+    print("DocTests finished")
 
     airports_to_test = ['KMSN', 'KAWO', 'KOSH', 'KBVS', 'KDOESNTEXIST']
     starting_date_time = datetime.utcnow()
