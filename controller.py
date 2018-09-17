@@ -471,6 +471,7 @@ if __name__ == '__main__':
         weather.LOW,
         weather.RED,
         weather.BLUE,
+        weather.CYAN,
         weather.GREEN,
         weather.YELLOW,
         weather.WHITE,
@@ -491,15 +492,8 @@ if __name__ == '__main__':
 
     wait_for_all_airports()
 
-    render_task = RecurringTask('Render', 0, render_thread, LOGGER, True)
-
-    while True:
-        try:
-            time.sleep(0.1)
-        except KeyboardInterrupt:
-            break
-        except SystemExit:
-            break
-
-    if not local_debug.is_debug():
-        GPIO.cleanup()
+    try:
+        render_thread()
+    finally:
+        if not local_debug.is_debug():
+            GPIO.cleanup()
