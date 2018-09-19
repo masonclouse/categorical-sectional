@@ -299,7 +299,7 @@ def get_airport_condition(airport):
     except:
         pass
 
-    return weather.INVALID, (weather.OFF, weather.OFF)
+    return weather.INVALID, (colors[weather.OFF], colors[weather.OFF])
 
 
 def render_airport_displays(airport_flasher):
@@ -430,35 +430,6 @@ def render_thread():
             time.sleep(1)
 
 
-def wait_for_all_airports():
-    """
-    Waits for all of the airports to have been given a chance to initialize.
-    If an airport had an error, then that still counts.
-    """
-
-    airport_missing = True
-    start_time = datetime.utcnow()
-
-    while airport_missing and (datetime.utcnow() - start_time).total_seconds() < 60:
-        airport_missing = False
-
-        thread_lock_object.acquire()
-        try:
-            for airport in airport_render_config:
-                if airport not in airport_conditions:
-                    airport_missing = True
-                    safe_log(LOGGER, "Waiting on " + airport)
-                    break
-        except:
-            safe_log_warning(LOGGER, "Error while waiting for boot")
-        finally:
-            thread_lock_object.release()
-
-        time.sleep(0.5)
-
-    return True
-
-
 if __name__ == '__main__':
     # Start loading the METARs in the background
     # while going through the self-test
@@ -489,8 +460,6 @@ if __name__ == '__main__':
 
     update_categories_task = RecurringTask(
         'UpdateCategorizations', 60, update_all_station_categorizations, LOGGER, True)
-
-    wait_for_all_airports()
 
     try:
         render_thread()
