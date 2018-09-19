@@ -75,7 +75,8 @@ color_by_rules = {
     weather.SMOKE: colors[weather.GRAY],
     weather.WIND: colors[weather.CYAN],
     weather.INVALID: colors[weather.OFF],
-    weather.INOP: colors[weather.OFF]
+    weather.INOP: colors[weather.OFF],
+    weather.OFF: colors[weather.OFF]
 }
 
 airport_render_last_logged_by_station = {}
