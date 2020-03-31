@@ -3,12 +3,13 @@
 
 import logging
 import time
-
 import configuration
 import lib.local_debug as local_debug
 import weather
+import board
+import neopixel
 from lib.logger import Logger
-from renderers import led, led_pwm, ws2801
+from renderers import led, led_pwm, ws2801, ws2811
 from safe_logging import safe_log, safe_log_warning
 
 python_logger = logging.getLogger("check_lights_wiring")
@@ -32,12 +33,15 @@ def get_test_renderer():
         renderer -- Object that takes the colors and airport config and
         sets the LEDs.
     """
+    if configuration.get_mode() == configuration.WS2811:
+        pixel_count = configuration.CONFIG["pixel_count"]
+        port = configuration.CONFIG["gpio_port"]
+        return ws2811.Ws2811Renderer(pixel_count, port)
 
     if configuration.get_mode() == configuration.WS2801:
         pixel_count = configuration.CONFIG["pixel_count"]
         spi_port = configuration.CONFIG["spi_port"]
         spi_device = configuration.CONFIG["spi_device"]
-
         return ws2801.Ws2801Renderer(pixel_count, spi_port, spi_device)
     elif configuration.get_mode() == configuration.PWM:
         return led_pwm.LedPwmRenderer(airport_render_config)
