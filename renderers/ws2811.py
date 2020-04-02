@@ -47,8 +47,8 @@ class Ws2811Renderer(object):
 
             for p in pixel_index:
                 if (self.rgb_order == 'GRB'):
-                    self.pixels[pixel_index] = (color[1], color[0], color[2])
+                    self.pixels[p] = (color[1], color[0], color[2])
                 elif (self.rgb_order is 'RGB'):
-                    self.pixels[pixel_index] = (color[0], color[1], color[2])
+                    self.pixels[p] = (color[0], color[1], color[2])
 
             self.pixels.show()

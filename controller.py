@@ -100,7 +100,7 @@ def get_renderer():
     elif configuration.get_mode() == configuration.WS2811:
         pixel_count = configuration.CONFIG['pixel_count']
         gpio_port = configuration.CONFIG['gpio_port']
-        return ws2811.Ws2811Render(pixel_count, gpio_port)
+        return ws2811.Ws2811Renderer(pixel_count, gpio_port)
     elif configuration.get_mode() == configuration.PWM:
         return led_pwm.LedPwmRenderer(airport_render_config)
     else:
