@@ -23,16 +23,11 @@
 # Green -> Pin 23(Physical)/SCLK/SPI
 #
 
-
 from safe_logging import safe_log, safe_log_warning
 from datetime import datetime
-import sys
-import json
 import logging
 import logging.handlers
-import re
 import time
-import urllib
 import threading
 
 import configuration
@@ -44,8 +39,7 @@ from lib.recurring_task import RecurringTask
 from renderers import led, led_pwm
 
 if not local_debug.is_debug():
-    from renderers import ws2801
-
+    from renderers import ws2801, ws2811
 
 airport_conditions = {}
 python_logger = logging.getLogger("weathermap")
@@ -103,6 +97,10 @@ def get_renderer():
         spi_port = configuration.CONFIG["spi_port"]
         spi_device = configuration.CONFIG["spi_device"]
         return ws2801.Ws2801Renderer(pixel_count, spi_port, spi_device)
+    elif configuration.get_mode() == configuration.WS2811:
+        pixel_count = configuration.CONFIG['pixel_count']
+        gpio_port = configuration.CONFIG['gpio_port']
+        return ws2811.Ws2811Render(pixel_count, gpio_port)
     elif configuration.get_mode() == configuration.PWM:
         return led_pwm.LedPwmRenderer(airport_render_config)
     else:
@@ -315,7 +313,7 @@ def get_airport_condition(
     try:
         if airport in airport_conditions:
             return airport_conditions[airport][0], airport_conditions[airport][1]
-    except:
+    except any:
         pass
 
     return weather.INVALID, False
@@ -529,7 +527,7 @@ def wait_for_all_airports():
             metar = weather.get_metar(airport, logger=LOGGER)
             category = get_airport_category(airport, metar, utc_offset)
             airport_conditions[airport] = (category, False)
-        except:
+        except any:
             airport_conditions[airport] = (weather.INVALID, False)
             safe_log_warning(
                 LOGGER, "Error while initializing with airport=" + airport)

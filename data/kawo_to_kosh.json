@@ -1,5 +1,5 @@
 {
-  "ws2801": [
+  "ws2811": [
     { "KBVS": { "neopixel": 0 } },
     { "KUIL": { "neopixel": 1 } },
     { "KHQM": { "neopixel": 2 } },

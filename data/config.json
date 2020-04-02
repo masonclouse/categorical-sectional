@@ -1,10 +1,8 @@
 {
-  "mode": "ws2801",
+  "mode": "ws2811",
   "pixel_count": 50,
-  "spi_device": 0,
-  "spi_port": 0,
-  "pwm_frequency": 100,
-  "airports_file": "data/kawo_to_kosh.json",
+  "gpio_port": 18,
+  "airports_file": "data/airports.json",
   "night_lights": true,
   "night_populated_yellow": false,
   "night_category_proportion": 0.05

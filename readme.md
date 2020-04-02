@@ -1,3 +1,8 @@
+
+I've added support for the WS2811 LED models which use a single data line in and out. These are also called neopixels from ada fruit.
+
+
+
 # VFR Light Map
 
 This is a fork of Dylan Rush's excellent "[Categorical-Sectional](https://github.com/dylanrush/categorical-sectional)".

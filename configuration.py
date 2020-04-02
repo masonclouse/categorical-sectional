@@ -51,7 +51,7 @@ def get_night_lights():
     try:
         if CONFIG is not None and 'night_lights' in CONFIG:
             return CONFIG['night_lights']
-    except:
+    except any:
         return False
 
 
@@ -67,7 +67,7 @@ def get_night_populated_yellow():
     try:
         if CONFIG is not None and 'night_populated_yellow' in CONFIG:
             return CONFIG['night_populated_yellow']
-    except:
+    except any:
         return True
 
 
@@ -238,16 +238,16 @@ def __load_gpio_airport_pins__(config_file):
         return out_airport_pins_map
 
 
-def __load_airport_ws28XX__(key,config_file):
+def __load_airport_ws28XX__(key, config_file):
     """
-    Loads the configuration for WS2801/neopixel based setups.
+    Loads the configuration for WS2801/WS2811 neopixel based setups.
 
     Arguments:
         config_file {string} -- The file name & location to load.
 
     Returns:
         dictionary -- A dictionary keyed by airport identifier
-                      that holds the pixel index and a reserved value.
+                      that holds the pixel index or an array of pixel indexes.
     """
 
     out_airport_map = {}

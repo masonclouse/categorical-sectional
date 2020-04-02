@@ -78,19 +78,18 @@ if __name__ == '__main__':
 
         time.sleep(0.5)
 
-    safe_log(LOGGER, "Starting airport indentification test")
+    safe_log(LOGGER, "Starting airport indentification setup")
 
     while True:
         for airport in airport_render_config:
             led_index = airport_render_config[airport]
+
             renderer.set_led(
                 led_index,
                 colors[weather.GREEN])
 
             safe_log(LOGGER, "LED {} - {} - Now lit".format(led_index, airport))
-            
             input("Press Enter to continue...")
-          
             renderer.set_led(
                 airport_render_config[airport],
                 colors[weather.OFF])

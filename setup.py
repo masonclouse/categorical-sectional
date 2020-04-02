@@ -3,6 +3,8 @@ from setuptools import setup
 
 installs = ['pytest',
             'Adafruit_WS2801',
+            'neopixel',
+            'board',
             'requests']
 
 if not local_debug.is_debug():
