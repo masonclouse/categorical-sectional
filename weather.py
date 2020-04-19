@@ -440,21 +440,12 @@ def get_twilight_transition(
     proportion_off_to_night = 0.0
     proportion_night_to_color = 0.0
 
-    # Sunsetting: Night to off
+    # Sunsetting
     if current_utc_time >= light_times[3]:
         proportion_off_to_night = 1.0 - \
             get_proportion_between_times(
                 light_times[3], current_utc_time, light_times[5])
-    # Sunsetting: Color to night
-    #elif current_utc_time >= light_times[3]:
-     #   proportion_night_to_color = 1.0 - \
-      #      get_proportion_between_times(
-       #         light_times[3], current_utc_time, light_times[4])
-    # Sunrising: Night to color
-    #elif current_utc_time >= light_times[1]:
-     #   proportion_night_to_color = get_proportion_between_times(
-      #      light_times[1], current_utc_time, light_times[2])
-    # Sunrising: off to night
+    # Sunrising
     else:
         proportion_off_to_night = get_proportion_between_times(
             light_times[0], current_utc_time, light_times[2])
