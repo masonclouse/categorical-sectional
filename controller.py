@@ -268,7 +268,7 @@ def get_airport_category(
     Returns:
         string -- The weather category for the airport.
     """
-    category = weather.INVALID
+    category = weather.INOP
 
     try:
         safe_log(LOGGER, 'get_airport_category({}, {}, {})'.format(
@@ -287,7 +287,7 @@ def get_airport_category(
     except Exception as e:
         safe_log(LOGGER,
                  "Captured EX while attempting to get category for {} EX:{}".format(airport, e))
-        category = weather.INVALID
+        category = weather.INOP
 
     safe_log(LOGGER, '~get_airport_category() => {}'.format(category))
 
@@ -313,7 +313,7 @@ def get_airport_condition(
     except any:
         pass
 
-    return weather.INVALID, False
+    return weather.INOP, False
 
 
 def render_airport_displays(
@@ -525,7 +525,7 @@ def wait_for_all_airports():
             category = get_airport_category(airport, metar, utc_offset)
             airport_conditions[airport] = (category, False)
         except any:
-            airport_conditions[airport] = (weather.INVALID, False)
+            airport_conditions[airport] = (weather.INOP, False)
             safe_log_warning(
                 LOGGER, "Error while initializing with airport=" + airport)
         finally:
