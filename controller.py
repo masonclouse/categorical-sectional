@@ -70,7 +70,7 @@ color_by_rules = {
     weather.NIGHT_DARK: colors[weather.DARK_YELLOW],
     weather.SMOKE: colors[weather.GRAY],
     weather.INVALID: colors[weather.YELLOW],
-    weather.INOP: colors[weather.OFF]
+    weather.INOP: colors[weather.YELLOW]
 }
 
 airport_render_last_logged_by_station = {}
