@@ -70,7 +70,7 @@ From the command line, after logging in:
 
 ```bash
 cd ~
-git clone https://github.com/JohnMarzulli/categorical-sectional.git
+git clone https://github.com/masonclouse/categorical-sectional.git
 ```
 
 This will install this software onto the Raspberry Pi.
