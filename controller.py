@@ -142,8 +142,8 @@ def get_color_from_condition(
     # Count the station as INOP.
     # The default is to follow what ForeFlight and SkyVector
     # do and just turn it off.
-    #if is_inactive:
-        #return (weather.INOP, False)
+    if is_inactive:
+        return (weather.INOP, True)
     
     if category == weather.VFR:
         return (weather.GREEN, is_old)
