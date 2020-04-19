@@ -771,15 +771,20 @@ def get_ceiling(
     # are in the past.
     components = metar.split('RMK')[0].split(' ')
     minimum_ceiling = 10000
+    ceiling_valid = False
     for component in components:
-        if 'BKN' in component or 'OVC' in component:
-            try:
-                ceiling = int(''.join(filter(str.isdigit, component))) * 100
-                if(ceiling < minimum_ceiling):
-                    minimum_ceiling = ceiling
-            except Exception as ex:
-                safe_log_warning(logger, 'Unable to decode ceilning component {} from {}. EX:{}'.format(
-                    component, metar, ex))
+        if 'CLR' in component or 'FEW' in component or 'SCT' in component or 'BKN' in component or 'OVC' in component:
+            ceiling_valid = True
+            if 'BKN' in component or 'OVC' in component:
+                try:
+                    ceiling = int(''.join(filter(str.isdigit, component))) * 100
+                    if(ceiling < minimum_ceiling):
+                        minimum_ceiling = ceiling
+                except Exception as ex:
+                    safe_log_warning(logger, 'Unable to decode ceilning component {} from {}. EX:{}'.format(
+                        component, metar, ex))
+    if ceiling_valid == False:
+        return INVALID
     return minimum_ceiling
 
 
@@ -795,7 +800,8 @@ def get_ceiling_category(
     Returns:
         string -- The flight rules classification.
     """
-
+    if ceiling == INVALID:
+        return INVALID
     if ceiling < 500:
         return LIFR
     if ceiling < 1000:
