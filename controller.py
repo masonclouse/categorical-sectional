@@ -69,7 +69,7 @@ color_by_rules = {
     weather.NIGHT: colors[weather.YELLOW],
     weather.NIGHT_DARK: colors[weather.DARK_YELLOW],
     weather.SMOKE: colors[weather.GRAY],
-    weather.INVALID: colors[weather.OFF],
+    weather.INVALID: colors[weather.YELLOW],
     weather.INOP: colors[weather.OFF]
 }
 
