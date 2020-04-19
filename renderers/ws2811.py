@@ -11,7 +11,7 @@ import board
 
 
 class Ws2811Renderer(object):
-    def __init__(self, pixel_count, gpio_port, rgb_order='RGB'):
+    def __init__(self, pixel_count, gpio_port, rgb_order='GRB'):
         """
         Create a new controller for the WS2811 based lights
 
