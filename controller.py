@@ -59,9 +59,6 @@ else:
     import RPi.GPIO as GPIO
     from RPi.GPIO import PWM
 
-#if not local_debug.is_debug():
- #   GPIO.setmode(GPIO.BOARD)
-
 airport_render_config = configuration.get_airport_configs()
 colors = configuration.get_colors()
 color_by_rules = {
