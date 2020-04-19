@@ -90,6 +90,10 @@ sudo python3 -m pip install --force-reinstall adafruit-blinka
 
 sudo pip3 install rpi_ws281x adafruit-circuitpython-neopixel
 
+#### Enable remote desktop:
+
+sudo apt-get install xrdp
+
 #### Raspberry Pi Settings
 
 Run 'raspi-config' and enable the SPI bus under Advanced
