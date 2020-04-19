@@ -143,7 +143,7 @@ def get_color_from_condition(
     # The default is to follow what ForeFlight and SkyVector
     # do and just turn it off.
     if is_inactive:
-        return (weather.INOP, True)
+        return (weather.INOP, False)
     
     if category == weather.VFR:
         return (weather.GREEN, is_old)
