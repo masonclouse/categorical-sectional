@@ -9,7 +9,7 @@ import weather
 import board
 import neopixel
 from lib.logger import Logger
-from renderers import led, led_pwm, ws2801, ws2811
+from renderers import led, led_pwm, ws2811
 from safe_logging import safe_log, safe_log_warning
 
 python_logger = logging.getLogger("check_lights_wiring")

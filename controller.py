@@ -39,7 +39,7 @@ from lib.recurring_task import RecurringTask
 from renderers import led, led_pwm
 
 if not local_debug.is_debug():
-    from renderers import ws2801, ws2811
+    from renderers import ws2811
 
 airport_conditions = {}
 python_logger = logging.getLogger("weathermap")
@@ -59,8 +59,8 @@ else:
     import RPi.GPIO as GPIO
     from RPi.GPIO import PWM
 
-if not local_debug.is_debug():
-    GPIO.setmode(GPIO.BOARD)
+#if not local_debug.is_debug():
+ #   GPIO.setmode(GPIO.BOARD)
 
 airport_render_config = configuration.get_airport_configs()
 colors = configuration.get_colors()
@@ -145,9 +145,9 @@ def get_color_from_condition(
     # Count the station as INOP.
     # The default is to follow what ForeFlight and SkyVector
     # do and just turn it off.
-    if is_inactive:
-        return (weather.INOP, False)
-
+    #if is_inactive:
+        #return (weather.INOP, False)
+    
     if category == weather.VFR:
         return (weather.GREEN, is_old)
     elif category == weather.MVFR:

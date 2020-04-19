@@ -441,25 +441,25 @@ def get_twilight_transition(
     proportion_night_to_color = 0.0
 
     # Sunsetting: Night to off
-    if current_utc_time >= light_times[4]:
+    if current_utc_time >= light_times[3]:
         proportion_off_to_night = 1.0 - \
             get_proportion_between_times(
-                light_times[4], current_utc_time, light_times[5])
+                light_times[3], current_utc_time, light_times[5])
     # Sunsetting: Color to night
-    elif current_utc_time >= light_times[3]:
-        proportion_night_to_color = 1.0 - \
-            get_proportion_between_times(
-                light_times[3], current_utc_time, light_times[4])
+    #elif current_utc_time >= light_times[3]:
+     #   proportion_night_to_color = 1.0 - \
+      #      get_proportion_between_times(
+       #         light_times[3], current_utc_time, light_times[4])
     # Sunrising: Night to color
-    elif current_utc_time >= light_times[1]:
-        proportion_night_to_color = get_proportion_between_times(
-            light_times[1], current_utc_time, light_times[2])
+    #elif current_utc_time >= light_times[1]:
+     #   proportion_night_to_color = get_proportion_between_times(
+      #      light_times[1], current_utc_time, light_times[2])
     # Sunrising: off to night
     else:
         proportion_off_to_night = get_proportion_between_times(
-            light_times[0], current_utc_time, light_times[1])
+            light_times[0], current_utc_time, light_times[2])
 
-    return proportion_off_to_night, proportion_night_to_color
+    return proportion_off_to_night, proportion_off_to_night
 
 
 def extract_metar_from_html_line(
@@ -809,7 +809,7 @@ def get_ceiling_category(
         return LIFR
     if ceiling < 1000:
         return IFR
-    if ceiling < 3000:
+    if ceiling <= 3000:
         return MVFR
     return VFR
 
