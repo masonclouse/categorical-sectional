@@ -1,0 +1,9 @@
+{
+  "mode": "ws2811",
+  "pixel_count": 50,
+  "gpio_port": 18,
+  "airports_file": "data/ohio.json",
+  "night_lights": true,
+  "night_populated_yellow": false,
+  "night_category_proportion": 0.05
+}
