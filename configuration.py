@@ -189,8 +189,8 @@ def __get_ws2801_colors__():
         weather.LOW: (255, 0, 255),
         weather.OFF: (0, 0, 0),
         weather.GRAY: (50, 50, 50),
-        weather.YELLOW: (255, 255, 0),
-        weather.DARK_YELLOW: (20, 20, 0),
+        weather.YELLOW: (255, 150, 0),
+        weather.DARK_YELLOW: (20, 12, 0),
         weather.WHITE: (255, 255, 255)
     }
 
