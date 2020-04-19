@@ -836,6 +836,8 @@ def get_category(
         metar_age_minutes = metar_age.total_seconds() / 60.0
         safe_log(logger, "{} - Issued {:.1f} minutes ago".format(
             airport_icao_code, metar_age_minutes))
+        if metar_age_minutes > DEFAULT_METAR_STATION_INACTIVE:
+            return INVALID
     else:
         safe_log_warning(
             logger, "{} - Unknown METAR age".format(airport_icao_code))
