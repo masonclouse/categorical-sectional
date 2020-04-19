@@ -727,7 +727,7 @@ def get_visibility(
     is_smoke = re.search('.* FU .*', metar) is not None
     # Not returning a visibility indicates UNLIMITED
     if(match == None):
-        return VFR
+        return INVALID
     (g1, g2) = match.groups()
     if(g2 == None):
         return INVALID
