@@ -827,7 +827,9 @@ def get_category(
     Returns:
         string -- The flight rules classification, or INVALID in case of an error.
     """
-    if metar is None or metar == INVALID:
+    if metar is None:
+        return INOP
+    if metar == INVALID:
         return INVALID
 
     metar_age = get_metar_age(metar)
