@@ -773,7 +773,7 @@ def get_ceiling(
     minimum_ceiling = 10000
     ceiling_valid = False
     for component in components:
-        if 'CLR' in component or 'FEW' in component or 'SCT' in component or 'BKN' in component or 'OVC' in component:
+        if 'SKC' in component or 'CLR' in component or 'FEW' in component or 'SCT' in component or 'BKN' in component or 'OVC' in component:
             ceiling_valid = True
             if 'BKN' in component or 'OVC' in component:
                 try:
