@@ -602,7 +602,7 @@ def get_metar_reports_from_web(
 def get_metar(
     airport_icao_code,
     logger=None,
-    use_cache=True
+    use_cache=False
 ):
     """
     Returns the (RAW) METAR for the given station
