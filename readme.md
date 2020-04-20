@@ -1,3 +1,4 @@
+I've fixed a few small issues that I've noticed, and updated this readme file with instructions for WS2811 LEDs.
 
 I've added support for the WS2811 LED models which use a single data line in and out. These are also called neopixels from ada fruit.
 
@@ -85,13 +86,18 @@ sudo python3 setup.py develop
 
 #### To install NeoPixels:
 
+```bash
 sudo python3 -m pip install --force-reinstall adafruit-blinka
-
+```
+```bash
 sudo pip3 install rpi_ws281x adafruit-circuitpython-neopixel
+```
 
 #### Enable remote desktop:
 
+```bash
 sudo apt-get install xrdp
+```
 
 #### Raspberry Pi Settings
 
