@@ -22,13 +22,13 @@ To complete this project you will need to:
 
 ### Additional Hardware
 
-The instructions given here are for WS2801 LED based strands, such as those found on AdaFruit.
+The instructions given here are for WS2811 LED based strands, such as those found on AdaFruit.
 
 The electronics cost about \$90 USD if you are buying everything new, and want 50 lights.
 
 To complete the project you will need to supply your own chart and backing board.
 
-Soldering is required for three (3) wires, along with some electrical tape.
+Soldering is required for two (2) wires, along with some electrical tape.
 
 To finish the instalation you will need a monitor, and a keyboard.
 
