@@ -1,6 +1,5 @@
 I've fixed a few small issues that I've noticed, and updated this readme file with instructions for WS2811 LEDs.
 
-I've added support for the WS2811 LED models which use a single data line in and out. These are also called neopixels from ada fruit.
 
 
 
