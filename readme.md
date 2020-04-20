@@ -100,7 +100,7 @@ sudo apt-get install xrdp
 
 #### Raspberry Pi Settings
 
-Run 'raspi-config' and enable the SPI bus under Advanced
+Run 'raspi-config' and enable the SPI bus under Interfacing Options
 
 ```bash
 sudo raspi-config
