@@ -354,7 +354,10 @@ Any airport that had issues fetching weather will be listed, and may simply be t
 To run it at boot, perform the following steps:
 
 1. Log into the device as the user "pi" with password "raspberry".
-2. Type "sudo nano /etc/rc.local"
+2. Open a terminal and type:
+```bash
+sudo nano /etc/rc.local
+```
 3. Make a new line between the "fi" and "exit 0" line, and add the following text:
 
 ```code
