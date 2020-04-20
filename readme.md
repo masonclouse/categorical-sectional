@@ -43,10 +43,9 @@ A parts manifest lists a Raspberry Pi Zero due to its size and lower power consu
 | Description                                  | Cost    | Link                                                                                                                                                                   |
 | -------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Raspberry Pi Zero W                          | \$29.99 | <https://www.amazon.com/CanaKit-Raspberry-Wireless-Starter-Official/dp/B06XJQV162/ref=sr_1_7?s=electronics&ie=UTF8&qid=1528557992&sr=1-7&keywords=raspberry+pi+zero+w> |
-| 5 volt, 4 amp power supply                   | \$12.99 | <https://www.amazon.com/ALITOVE-Converter-5-5x2-1mm-100V-240V-Security/dp/B078RT3ZPS/ref=sr_1_3?crid=3NW2K0T4PQ7&dchild=1&keywords=5+volt+5+amp+power+supply&qid=1587403440&sprefix=5+volt+4+a%2Caps%2C172&sr=8-3>                                                                             |
-| Barrel jack adapters                         | \$7.99  | <https://www.amazon.com/gp/product/B01M4RBARQ/ref=oh_aui_detailpage_o06_s01?ie=UTF8&psc=1>                                                                             |
-| Individually addressable LEDs (WS2801 based) | \$39.95 | <https://www.amazon.com/12mm-Diffused-Digital-Pixels-Strand/dp/B073MZWBYS/ref=sr_1_1?ie=UTF8&qid=1528558371&sr=8-1&keywords=adafruit+ws2801>                           |
-| 4 Pin JST SM Plugs                           | \$7.99  | <https://www.amazon.com/Visdoll-Pairs-Female-Connector-Cable/dp/B075K48BD9/ref=sr_1_8?ie=UTF8&qid=1528559351&sr=8-8&keywords=4+Pin+JST+SM+Plug>                        |
+| 5 volt, 4 amp power supply                   | \$14.99 | <https://www.amazon.com/ALITOVE-Converter-5-5x2-1mm-100V-240V-Security/dp/B078RT3ZPS/ref=sr_1_3?crid=3NW2K0T4PQ7&dchild=1&keywords=5+volt+5+amp+power+supply&qid=1587403440&sprefix=5+volt+4+a%2Caps%2C172&sr=8-3>                                                                             |
+| Individually addressable LEDs (WS2811 based) | \$14.99 | <https://www.amazon.com/ALITOVE-LED-Individually-Addressable-Waterproof/dp/B01AG923GI/ref=sr_1_5?dchild=1&keywords=ws2811+led&qid=1587403543&sr=8-5>                           |
+| 3 Pin JST SM Plugs                           | \$10.99  | <https://www.amazon.com/ALITOVE-Female-Connector-WS2812B-SK6812-RGBW/dp/B071H5XCN5/ref=sr_1_4?dchild=1&keywords=3+pin+jst+plugs&qid=1587403576&sr=8-4>                        |
 
 ### Bootstrapping The Raspberry Pi
 
