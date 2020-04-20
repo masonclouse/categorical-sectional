@@ -5,6 +5,8 @@ I've added support for the WS2811 LED models which use a single data line in and
 
 # VFR Light Map
 
+![](media/4418A9F8-AA35-497F-B700-1CCBF13A96DE.jpeg)
+
 This is a fork of Dylan Rush's excellent "[Categorical-Sectional](https://github.com/dylanrush/categorical-sectional)".
 
 The purpose of this version was to unify the control code of different LED light types and to add support for WS2801 "individually" addressible LED lights.
