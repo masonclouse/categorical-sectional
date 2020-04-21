@@ -219,7 +219,7 @@ Used if you are using PWM LEDs.
 
 This is the file that contains the airport names and the wiring configuration for them.
 
-### Airports File
+### Airport File
 
 #### Annotated Example File
 
