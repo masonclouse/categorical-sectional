@@ -12,7 +12,7 @@ list = [w.replace('\n', '') for w in list]
 count = 0
 
 # OUTPUT file name:
-output = open("data/airport_config_file.json", 'w')
+output = open("data/airport_leds.json", 'w')
 
 output.write("{")
 output.write("\n")
