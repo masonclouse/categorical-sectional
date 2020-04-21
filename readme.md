@@ -1,17 +1,10 @@
-I've fixed a few small issues that I've noticed, and updated this readme file with instructions for WS2811 LEDs.
-
-
-
-
 # VFR Light Map
 
 ![](media/4418A9F8-AA35-497F-B700-1CCBF13A96DE.jpeg)
 
-This is a fork of Dylan Rush's excellent "[Categorical-Sectional](https://github.com/dylanrush/categorical-sectional)".
+This is a fork of Dylan Rush's, John Marzulli's, and James Russo's excellent "[Categorical-Sectional](https://github.com/dylanrush/categorical-sectional)".
 
-The purpose of this version was to unify the control code of different LED light types and to add support for WS2801 "individually" addressible LED lights.
-
-I have also attempted to make setup easier by moving the LED configuration into data files.
+I've fixed a few small issues that I've noticed, and updated this readme file with instructions for WS2811 LEDs.
 
 ## What You Need
 
@@ -20,7 +13,7 @@ I have also attempted to make setup easier by moving the LED configuration into 
 To complete this project you will need to:
 
 - Edit two text files.
-- Solder three wires.
+- Solder two wires.
 
 ### Additional Hardware
 
@@ -83,7 +76,7 @@ cd ~/categorical-sectional
 sudo python3 setup.py develop
 ```
 
-#### To install NeoPixels:
+#### Install NeoPixels:
 
 ```bash
 sudo python3 -m pip install --force-reinstall adafruit-blinka
@@ -92,7 +85,7 @@ sudo python3 -m pip install --force-reinstall adafruit-blinka
 sudo pip3 install rpi_ws281x adafruit-circuitpython-neopixel
 ```
 
-#### Enable remote desktop:
+#### Install remote desktop (optional):
 
 ```bash
 sudo apt-get install xrdp
@@ -100,7 +93,7 @@ sudo apt-get install xrdp
 
 #### Raspberry Pi Settings
 
-Run 'raspi-config' and enable the SPI bus under Interfacing Options
+Run 'raspi-config' and enable the SPI bus under Interfacing Options.
 
 ```bash
 sudo raspi-config
@@ -110,18 +103,20 @@ sudo raspi-config
 
 ### Wiring the WS2811
 
-If you are using multiple strands of lights, plug them together.
-Tape off the red and blue tap wires between the connectors and at the end of the strand.
+Refer to the LED documentation to determine whether the male or female end of the LED strand is the input side. This is important as the LEDs will only work if power is supplied to the right end of the strand.
 
-Leave the red and blue wire at the start of the strand for the moment.
+If you are using multiple strands of lights, plug them together.
+Tape off the red and blue tap wires between the connectors and at the output end of the strand.
+
+Leave the red and blue wire at the input end for the moment.
 
 ### The Barrel Jack Adapter
 
-For the barrel jack, use the two thinner wires that come out of the top of the plastic connector from the LED lights.
+For the barrel jack, use the two thinner wires that come out of the input end of the LED strand.
 
 One is red, the other blue.
 
-- Blue -> Barrel jack minus
+- Blue -> Barrel jack negative
 - Red -> Barrel jack positive
 
 #### Wiring Detail For Barrel Jack
@@ -131,25 +126,25 @@ One is red, the other blue.
 
 
 #### Wiring WS2811 lights
-Refer to the LED documentatiion to determine whether the male or female end of the LED strand is the input side.
+
 If the female end of the LEDs is the input side, attach a male JST connector to the pi, and vice versa.
 
+Solder the JST connector to the pi such that each wire on the LEDs will be connected to the correct GPIO port.
 - Data wire --> GPIO18
-- Ground wire --> GRND
-
-Solder them to the board.
+- Ground wire --> GND
+- There will be one wire on the JST connector that doesn't get soldered to the board. Tape this one off.
 
 ## Final Assembly
 
 - Connect the JST and LED connectors together.
-- Connect the barrel jack into the Neopixel strip.
+- Connect the barrel jack into the NeoPixel strip.
 - Plug inthe NeoPixels first, then the Raspberry Pi.
 
 ## Understanding The Configuration Files
 
 All of the configuration files will be in the "data" sub directory.
 
-Unless you are building the same exact map that I did (Puget Sound to Oshkosh), then you will want to modify at least one of these.
+Unless you are building the same exact map that I did (Ohio), then you will want to modify at least one of these.
 
 ### data/config.json
 
@@ -172,7 +167,7 @@ This is the first file loaded. It tells the software what type of lights are bei
 
 Set this to true if you would like the weather stations to change colors based on the time of day.
 
-If you are using WS2801 or PWM based lights, then this is a gradual process.
+If you are using WS2811 or PWM based lights, then this is a gradual process.
 
 First the light will fade from the flight condition color to a bright yellow to indicate "Populated night".
 As the station gets darker, the light fades to a darker yellow by the time the station is "pitch black" in night.
@@ -210,7 +205,7 @@ This controls which type of LED system to use for controlling the lights.
 
 #### pixel_count
 
-If you are using ws2811 based LEDs then you may need to change "pixel_count". Each strand will come with a numbe rof LEDs. You you are using a single strand, then set this number to that count. If you have combined strands, then set the total number of lights.
+If you are using ws2811 based LEDs then you may need to change "pixel_count". Each strand will come with a number of LEDs. You you are using a single strand, then set this number to that count. If you have combined strands, then set the total number of lights.
 
 #### gpio_port
 
@@ -241,7 +236,7 @@ This shows the two sections for an example airport file.
     { "KPWT": [36, 38, 40] },
     { "KSHN": [8, 10, 12] }
   ],
-  "ws2801": [
+  "ws2811": [
     { "KRNT": { "neopixel": 0 } },
     { "KSEA": { "neopixel": 2 } },
     { "KPLU": { "neopixel": 4 } },
@@ -367,7 +362,7 @@ sudo python3 /home/pi/categorical-sectional/controller.py &
 4. Save the file and exit by pressing CTRL+X, then Y, then ENTER.
 5. sudo reboot now
 
-Capitalization counts. The map lights should come on with each boot now.
+Capitalization matters. The map lights should come on with each boot now.
 
 ## Colors
 
@@ -383,7 +378,7 @@ This project uses "standard" airport coloring for flight rules category, along w
 | Night       | Solid yellow   | Solid yellow   | Solid yellow   |
 | Error       | Solid yellow   | Blinking white | Blinking white |
 
-## Apendix
+## Appendix
 
 <https://learn.adafruit.com/12mm-led-pixels/wiring>
 <https://tutorials-raspberrypi.com/how-to-control-a-raspberry-pi-ws2801-rgb-led-strip/>
