@@ -1,4 +1,5 @@
 # Creates the airport config file from a text list of airport identifiers.
+# Put the file to be converted into the data folder and enter its name below.
 
 # INPUT file name:
 file = open('data/FILENAME.txt', 'r')
