@@ -1,4 +1,4 @@
-# Creates the airport config file from a text list of airport identifiers.
+# Converts a text list of airports into the airport json file.
 # Put the file to be converted into the data folder and enter its name below.
 
 # INPUT file name:
