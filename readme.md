@@ -323,7 +323,7 @@ Running this will illuminate one LED at a time, and prompt you to enter the airp
 
 Running this will convert a text file with one airport identifier on each line to an "output.json" file. You can then paste this into the data folder to be used as your airport config file. This program will only run on a pi.
 
-### misc/text_to_airport_file_WINDOWS.py
+### misc/text_to_airport_file_windows.py
 
 Same thing but modified to run on Windows.
 
