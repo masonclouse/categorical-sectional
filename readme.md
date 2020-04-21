@@ -4,7 +4,7 @@
 
 This is a fork of Dylan Rush's, John Marzulli's, and James Russo's excellent "[Categorical-Sectional](https://github.com/dylanrush/categorical-sectional)".
 
-I've fixed a few small issues that I've noticed, and updated this readme file with instructions for WS2811 LEDs.
+I've fixed a few issues that are noted under the Issues tab, created a few new programs of varying usefulness that can be found in the "misc" folder (and are described below), and heavily modified this readme file with instructions for WS2811 LEDs and other various information.
 
 ## What You Need
 
@@ -116,8 +116,8 @@ For the barrel jack, use the two thinner wires that come out of the input end of
 
 One is red, the other blue.
 
-- Blue -> Barrel jack negative
 - Red -> Barrel jack positive
+- Blue -> Barrel jack negative
 
 #### Wiring Detail For Barrel Jack
 
@@ -138,7 +138,7 @@ Solder the JST connector to the pi such that each wire on the LEDs will be conne
 
 - Connect the JST and LED connectors together.
 - Connect the barrel jack into the NeoPixel strip.
-- Plug inthe NeoPixels first, then the Raspberry Pi.
+- Plug in the NeoPixels first, then the Raspberry Pi.
 
 ## Understanding The Configuration Files
 
@@ -155,7 +155,6 @@ This is the first file loaded. It tells the software what type of lights are bei
   "mode": "ws2811",
   "pixel_count": 50,
   "gpio_port": 18,
-  "pwm_frequency": 100,
   "airports_file": "data/kawo_to_kosh.json",
   "night_lights": true,
   "night_populated_yellow": false,
@@ -167,7 +166,7 @@ This is the first file loaded. It tells the software what type of lights are bei
 
 Set this to true if you would like the weather stations to change colors based on the time of day.
 
-If you are using WS2811 or PWM based lights, then this is a gradual process.
+If you are using WS2811 lights, then this is a gradual process.
 
 First the light will fade from the flight condition color to a bright yellow to indicate "Populated night".
 As the station gets darker, the light fades to a darker yellow by the time the station is "pitch black" in night.
@@ -200,8 +199,6 @@ This controls which type of LED system to use for controlling the lights.
 | Value  | Description                                                                                      |
 | ------ | ------------------------------------------------------------------------------------------------ |
 | ws2811 | Use WS2811 based light strands like those from AdaFruit                                          |
-| pwm    | Use pulse width modulation based LEDs. This can have their colors changed more than normal LEDs. |
-| led    | Use standard LEDs that have a positive wire for each color and a common ground.                  |
 
 #### pixel_count
 
@@ -211,9 +208,6 @@ If you are using ws2811 based LEDs then you may need to change "pixel_count". Ea
 
 You will probably not need to change this. If you do need to change this, then you probably know what to do.
 
-#### pwm_frequency
-
-Used if you are using PWM LEDs.
 
 #### airports_file
 
@@ -221,21 +215,8 @@ This is the file that contains the airport names and the wiring configuration fo
 
 ### Airport File
 
-#### Annotated Example File
-
-This shows the two sections for an example airport file.
-
 ```json
 {
-  "pwm": [
-    { "KRNT": [3, 5, 7] },
-    { "KSEA": [11, 13, 15] },
-    { "KPLU": [19, 21, 23] },
-    { "KOLM": [29, 31, 33] },
-    { "KTIW": [32, 35, 37] },
-    { "KPWT": [36, 38, 40] },
-    { "KSHN": [8, 10, 12] }
-  ],
   "ws2811": [
     { "KRNT": { "neopixel": 0 } },
     { "KSEA": { "neopixel": 2 } },
@@ -249,18 +230,6 @@ This shows the two sections for an example airport file.
 ```
 
 #### Explanation
-
-There are two sections:
-
-##### pwm
-
-Contains the airport name and wiring information. The first number is the wire controlling the red LED, then the green LED, and finally the blue LED.
-
-These wire numbers refer to the _*physical*_ board number on the Raspberry pie.
-
-So for KRNT (Renton), the wire leading to the Red LED would be wired to the GPIO board at pin 3. The Blue LED would be wired to pin 5, and the green LED wire would be wired to pin 7.
-
-_NOTE:_ The "pwm" section is used by both the normal LEDs and the pulse width controlled LEDs.
 
 ##### ws2811
 
@@ -344,6 +313,21 @@ Any failures will list the identifier code and the reason.
 Not being able to fetch a weather report is not considered a fatal error if other data can be obtained.
 Any airport that had issues fetching weather will be listed, and may simply be temporarily down.
 
+## Misc Files (in order of usefulness)
+
+### misc/assign_airport_leds.py
+
+Running this will illuminate one LED at a time, and prompt you to enter the airport it corresponds to. It will then create an "output.json" file that you can paste into the data folder to be used as your airport config file. This saves you from having to figure out which LED corresponds to each airport and manually entering it into the config file.
+
+### misc/text_to_airport_file.py
+
+Running this will convert a text file with one airport identifier on each line to an "output.json" file. You can then paste this into the data folder to be used as your airport config file.
+
+
+### misc/step_thru_leds.py
+
+Simple program that illuminates one LED at a time.
+
 ## Running It At Boot
 
 To run it at boot, perform the following steps:
@@ -368,33 +352,17 @@ Capitalization matters. The map lights should come on with each boot now.
 
 This project uses "standard" airport coloring for flight rules category, along with some unique colors.
 
-| Flight Rule | WS2801         | PWM            | LED            |
-| ----------- | -------------- | -------------- | -------------- |
-| VFR         | Solid green    | Solid green    | Solid green    |
-| MVFR        | Solid blue     | Solid blue     | Solid blue     |
-| IFR         | Solid red      | Solid red      | Solid red      |
-| LIFR        | Solid magenta  | Solid magenta  | Blinking red   |
-| Smoke       | Solid gray     | Solid gray     | Solid gray     |
-| Night       | Solid yellow   | Solid yellow   | Solid yellow   |
-| Error       | Solid yellow   | Blinking white | Blinking white |
+| Flight Rule | WS2801         |
+| ----------- | -------------- |
+| VFR         | Solid green    |
+| MVFR        | Solid blue     |
+| IFR         | Solid red      |
+| LIFR        | Solid magenta  |
+| Smoke       | Solid gray     |
+| Night       | Solid yellow   |
+| Error       | Solid yellow   |
 
-## Appendix
 
-<https://learn.adafruit.com/12mm-led-pixels/wiring>
-<https://tutorials-raspberrypi.com/how-to-control-a-raspberry-pi-ws2801-rgb-led-strip/>
-<https://www.raspberrypi.org/documentation/linux/usage/cron.md>
-
-## Version History
-
-| Version | Change                                                                                                                                                                            |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.6     | Updated documentation, wiring self-check file that uses the configuration to exercise each weather station for all colors.                                                        |
-| 1.5     | New options that expand the day/night lighting cycle. Allows for dimmed category colors to be used instread.                                                                      |
-| 1.4     | Changes to map initialization to help with bad airport identifiers. Improve handling of mismatch between four and three letter long identifiers when determining day/night cycle. |
-| 1.3     | Performance improvements.                                                                                                                                                         |
-| 1.2     | Migrated to Python 3.x                                                                                                                                                            |
-| 1.1     | Day / Night cycle.                                                                                                                                                                |
-| 1.0     | First release with adressable lights.                                                                                                                                             |
 
 ## Credits
 
