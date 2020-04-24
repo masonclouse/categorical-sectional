@@ -773,9 +773,9 @@ def get_ceiling(
     minimum_ceiling = 10000
     ceiling_valid = False
     for component in components:
-        if 'SKC' in component or 'CLR' in component or 'FEW' in component or 'SCT' in component or 'BKN' in component or 'OVC' in component:
+        if 'SKC' in component or 'CLR' in component or 'FEW' in component or 'SCT' in component or 'BKN' in component or 'OVC' in component or 'VV' in component:
             ceiling_valid = True
-            if 'BKN' in component or 'OVC' in component:
+            if 'BKN' in component or 'OVC' in component or 'VV' in component:
                 try:
                     ceiling = int(''.join(filter(str.isdigit, component))) * 100
                     if(ceiling < minimum_ceiling):
