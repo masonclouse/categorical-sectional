@@ -547,11 +547,7 @@ if __name__ == '__main__':
         weather.RED,
         weather.BLUE,
         weather.GREEN,
-        weather.YELLOW,
-        weather.WHITE,
-        weather.GRAY,
-        weather.DARK_YELLOW,
-        weather.OFF
+        weather.YELLOW
     )
 
     for color in colors_to_init:
@@ -559,7 +555,7 @@ if __name__ == '__main__':
         all_airports(color)
         time.sleep(0.5)
 
-    all_airports(weather.OFF)
+    all_airports(weather.GRAY)
 
     update_categories_task = RecurringTask(
         'UpdateCategorizations', 60, update_all_station_categorizations, LOGGER, True)
