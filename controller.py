@@ -553,7 +553,7 @@ if __name__ == '__main__':
     for color in colors_to_init:
         safe_log(LOGGER, "Setting to {}".format(color))
         all_airports(color)
-        time.sleep(0.5)
+        time.sleep(0.2)
 
     all_airports(weather.GRAY)
 
