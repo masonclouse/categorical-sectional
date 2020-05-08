@@ -69,8 +69,8 @@ color_by_rules = {
     weather.NIGHT: colors[weather.YELLOW],
     weather.NIGHT_DARK: colors[weather.DARK_YELLOW],
     weather.SMOKE: colors[weather.GRAY],
-    weather.INVALID: colors[weather.YELLOW],
-    weather.INOP: colors[weather.YELLOW]
+    weather.INVALID: colors[weather.OFF],
+    weather.INOP: colors[weather.OFF]
 }
 
 airport_render_last_logged_by_station = {}
@@ -491,7 +491,6 @@ def all_airports(
     [renderer.set_led(airport_render_config[airport], colors[color])
         for airport in airport_render_config]
 
-
 def render_thread():
     """
     Main logic loop for rendering the lights.
@@ -502,12 +501,12 @@ def render_thread():
     while True:
         try:
             render_airport_displays(True)
-            time.sleep(1)
+            time.sleep(0)
             render_airport_displays(False)
         except KeyboardInterrupt:
             quit()
         finally:
-            time.sleep(1)
+            time.sleep(0)
 
 
 def wait_for_all_airports():
@@ -546,16 +545,15 @@ if __name__ == '__main__':
         weather.LOW,
         weather.RED,
         weather.BLUE,
-        weather.GREEN,
-        weather.YELLOW
+        weather.GREEN
     )
 
     for color in colors_to_init:
         safe_log(LOGGER, "Setting to {}".format(color))
         all_airports(color)
-        time.sleep(0.2)
+        time.sleep(0.5)
 
-    all_airports(weather.GRAY)
+    all_airports(weather.OFF)
 
     update_categories_task = RecurringTask(
         'UpdateCategorizations', 60, update_all_station_categorizations, LOGGER, True)

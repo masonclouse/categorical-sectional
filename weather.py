@@ -9,6 +9,7 @@ import re
 import urllib.request
 import threading
 from datetime import datetime, timedelta
+import time
 
 import requests
 
@@ -41,8 +42,8 @@ __metar_report_cache__ = {}
 
 DEFAULT_READ_SECONDS = 15
 DEFAULT_METAR_LIFESPAN_MINUTES = 60
-DEFAULT_METAR_INVALIDATE_MINUTES = DEFAULT_METAR_LIFESPAN_MINUTES * 1.25
-DEFAULT_METAR_STATION_INACTIVE = DEFAULT_METAR_LIFESPAN_MINUTES * 2.25
+DEFAULT_METAR_INVALIDATE_MINUTES = DEFAULT_METAR_LIFESPAN_MINUTES * 1.5
+DEFAULT_METAR_STATION_INACTIVE = DEFAULT_METAR_LIFESPAN_MINUTES * 2.5
 
 
 def __load_airport_data__(
@@ -209,12 +210,10 @@ def get_civil_twilight(
         4 - when sunset starts
         5 - when it is full dark
     """
-
     safe_log(logger, 'get_civil_twilight({}, {}, {})'.format(
         airport_icao_code, current_utc_time, use_cache))
 
     __light_fetch_lock__.acquire()
-
     try:
         if current_utc_time is None:
             current_utc_time = datetime.utcnow()
@@ -312,7 +311,6 @@ def is_daylight(
     Returns:
         boolean -- True if the airport is currently in daylight.
     """
-
     if current_utc_time is None:
         current_utc_time = datetime.utcnow()
 
@@ -353,7 +351,6 @@ def is_night(
     Returns:
         boolean -- True if the airport is currently in night.
     """
-
     if current_utc_time is None:
         current_utc_time = datetime.utcnow()
 
@@ -396,7 +393,6 @@ def get_proportion_between_times(start, current, end):
     Returns:
         float -- The amount of interpolaton for Current between Start and End
     """
-
     total_delta = (end - start).total_seconds()
     time_in = (current - start).total_seconds()
 
@@ -726,29 +722,23 @@ def get_visibility(
     match = re.search('( [0-9] )?([0-9]/?[0-9]?SM)', metar)
     is_smoke = re.search('.* FU .*', metar) is not None
     # Not returning a visibility indicates UNLIMITED
+    if is_smoke:
+        return SMOKE
     if(match == None):
         return INVALID
     (g1, g2) = match.groups()
     if(g2 == None):
         return INVALID
     if(g1 != None):
-        if is_smoke:
-            return SMOKE
         return IFR
     if '/' in g2:
-        if is_smoke:
-            return SMOKE
         return LIFR
     vis = int(re.sub('SM', '', g2))
     if vis < 3:
-        if is_smoke:
-            return SMOKE
         return IFR
     if vis <= 5:
-        if is_smoke:
-            return SMOKE
-
         return MVFR
+
     return VFR
 
 
@@ -846,23 +836,23 @@ def get_category(
 
     vis = get_visibility(metar)
     ceiling = get_ceiling_category(get_ceiling(metar, logger=logger))
-    if ceiling == INVALID or vis == INVALID:
-        return INVALID
     if vis == SMOKE:
         return SMOKE
     if vis == LIFR or ceiling == LIFR:
         return LIFR
     if vis == IFR or ceiling == IFR:
         return IFR
+    if ceiling == INVALID or vis == INVALID:
+        return INVALID
     if vis == MVFR or ceiling == MVFR:
         return MVFR
 
     return VFR
 
 
+
 if __name__ == '__main__':
     safe_log(None, 'Starting self-test')
-
     airports_to_test = ['KW29', 'KMSN', 'KAWO', 'KOSH', 'KBVS', 'KDOESNTEXIST']
     starting_date_time = datetime.utcnow()
     utc_offset = starting_date_time - datetime.now()
